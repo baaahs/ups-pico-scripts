@@ -2,17 +2,22 @@
 
 import smbus
 
-i2c = smbus.SMBus(1)
+try:
 
-data = i2c.read_byte_data(0x69, 0x00)
-data = data & ~(1 << 7)
+  i2c = smbus.SMBus(1)
 
+  data = i2c.read_byte_data(0x69, 0x00)
+  data = data & ~(1 << 7)
 
-if (data == 1):
-  power_mode = "Line"
-elif (data == 2):
-  power_mode = "Battery"
-else:
-  power_mode = "ERROR"
+  if (data == 1):
+    power_mode = "Line"
+  elif (data == 2):
+    power_mode = "Battery"
+  else:
+    power_mode = "error"
+
+except:
+
+  power_mode = "error"
 
 print power_mode

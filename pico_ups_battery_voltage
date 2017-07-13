@@ -4,8 +4,12 @@ import smbus
 
 i2c = smbus.SMBus(1)
 
-raw_data = i2c.read_word_data(0x69, 0x08)
-formatted_data = format(raw_data,"02x")
-readable_output = (float(formatted_data) / 100)
+try:
+  raw_data = i2c.read_word_data(0x69, 0x08)
+  formatted_data = format(raw_data,"02x")
+  readable_output = (float(formatted_data) / 100)
+
+except:
+  readable_output = "error"
 
 print readable_output
