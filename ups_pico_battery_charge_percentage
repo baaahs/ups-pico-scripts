@@ -1,0 +1,19 @@
+#!/usr/bin/python
+
+import smbus
+import time
+
+i2c = smbus.SMBus(1)
+
+battery_version = i2c.read_byte_data(0x6b, 0x07)
+
+battery_level = i2c.read_word_data(0x69, 0x08)
+battery_level_data = format(battery_level,"02x")
+battery_level_readable = (float(battery_level_data) / 100)
+
+if (battery_version == 0x46) or (battery_version == 0x51):
+  battery_percentage = ((battery_level_readable-2.9)/1.25)*100
+elif (battery_version == 0x53) or (battery_version == 0x50):
+  battery_percentage = ((battery_level_readable-3.4)/0.75)*100
+
+print battery_percentage
